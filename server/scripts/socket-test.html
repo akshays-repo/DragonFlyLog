@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log Viewer</title>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <script>
+        const socket = io('http://localhost:3000/logs');
+        
+        socket.on('connect', () => {
+            console.log('Connected to server');
+            // Subscribe to log updates
+            socket.emit('subscribe_logs');
+        });
+
+        // Listen for connection status
+        socket.on('connection_status', (data) => {
+            console.log('Connection status:', data);
+            document.getElementById('status').textContent = `Connected: ${data.clientId}`;
+        });
+
+        // Listen for new logs being queued
+        socket.on('log_queued', (data) => {
+            console.log('New log queued:', data);
+            appendLog('Queued', data);
+        });
+
+        // Listen for processed logs
+        socket.on('logs_processed', (data) => {
+            console.log('Logs processed:', data);
+            data.logs.forEach(log => appendLog('Processed', log));
+        });
+
+        // Listen for processing progress
+        socket.on('processing_progress', (data) => {
+            console.log('Processing progress:', data);
+            document.getElementById('progress').textContent = 
+                `Processed: ${data.processed} logs`;
+        });
+
+        // Listen for processing errors
+        socket.on('processing_error', (data) => {
+            console.error('Processing error:', data);
+            document.getElementById('errors').textContent = 
+                `Error: ${data.error} (${data.count} logs affected)`;
+        });
+
+        function appendLog(type, log) {
+            const logList = document.getElementById('logs');
+            const li = document.createElement('li');
+            li.textContent = `[${type}] ${JSON.stringify(log)}`;
+            logList.appendChild(li);
+        }
+
+        // Request queue stats
+        function getQueueStats() {
+            socket.emit('get_queue_stats');
+        }
+    </script>
+</head>
+<body>
+    <h1>Log Viewer</h1>
+    <div id="status">Not connected</div>
+    <div id="progress"></div>
+    <div id="errors"></div>
+    <button onclick="getQueueStats()">Get Queue Stats</button>
+    <h2>Logs:</h2>
+    <ul id="logs"></ul>
+</body>
+</html>
