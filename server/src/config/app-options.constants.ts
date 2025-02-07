@@ -1,6 +1,7 @@
 import { CacheModuleAsyncOptions } from '@nestjs/cache-manager';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { redisStore } from 'cache-manager-redis-store';
+import { SetMetadata } from '@nestjs/common';
 
 export const RedisOptions: CacheModuleAsyncOptions = {
   isGlobal: true,
@@ -18,3 +19,6 @@ export const RedisOptions: CacheModuleAsyncOptions = {
   },
   inject: [ConfigService],
 };
+
+export const IS_PUBLIC_KEY = 'isPublic';
+export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);

@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Number of concurrent requests per batch
-CONCURRENT_REQUESTS=10
+CONCURRENT_REQUESTS=5
 # Total test duration in seconds
 DURATION=100
 # Endpoint URL
-URL="http://localhost:3000/log"
+URL="http://54.165.238.127:3000/log"
 # Start time
 START_TIME=$(date +%s)
 # Log file for response times
