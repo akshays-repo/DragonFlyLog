@@ -1,9 +1,11 @@
+import { Project } from 'src/projects/entities/project.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('users')
@@ -34,4 +36,7 @@ export class User {
 
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt: Date;
+
+  @OneToMany(() => Project, (project) => project.user)
+  projects: Project[];
 }

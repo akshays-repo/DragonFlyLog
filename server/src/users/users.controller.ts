@@ -13,10 +13,7 @@ export class UsersController {
   constructor(private userService: UsersService) {}
 
   @Get(':username')
-  async findByUserName(
-    @Param('username') username: string,
-    @Req() req: Request,
-  ) {
+  async findByUserName(@Param('username') username: string, @Req() req: any) {
     if (!req.user) {
       throw new UnauthorizedException('User not found');
     }

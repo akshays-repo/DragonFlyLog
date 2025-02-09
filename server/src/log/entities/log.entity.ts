@@ -1,8 +1,10 @@
+import { Project } from 'src/projects/entities/project.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity('logs')
@@ -24,4 +26,7 @@ export class Log {
 
   @CreateDateColumn({ type: 'timestamptz' })
   timestamp: Date;
+
+  @ManyToOne(() => Project, (project) => project.logs, { onDelete: 'CASCADE' })
+  project: Project;
 }

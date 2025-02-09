@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { ProjectsModule } from './projects/projects.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { APP_GUARD } from '@nestjs/core';
     CacheModule.registerAsync(RedisOptions),
     AuthModule,
     UsersModule,
+    ProjectsModule,
   ],
   controllers: [AppController],
   providers: [
